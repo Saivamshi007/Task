@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,12 +30,16 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> parentList=new ArrayList<>();
     RecyclerView parrecyclerView;
 
+    private ArrayList<Uri> subarray;
+
+    SubAdapter subAdapter;
+
     MyAdapter paradapter;
 
     String inputtext;
     Dialog builder;
 
-    SubAdapter subAdapter;
+
     ArrayList<Uri> list;
 
     @Override
@@ -160,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -168,31 +172,29 @@ public class MainActivity extends AppCompatActivity {
        if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data.getClipData() != null) {
-                    ModelList m;
-                    ArrayList<ModelList> list=new ArrayList<>();
+
+                    subarray=new ArrayList<>();
+
                     int count = data.getClipData().getItemCount();
                     for (int i = 0; i < count; i++) {
 
-                        m=new ModelList();
-                        m.setMuri(data.getClipData().getItemAt(i).getUri());
-                        m.setMtitle(inputtext);
-                        list.add(m);
-
-
-
+                        subarray.add(data.getClipData().getItemAt(i).getUri());
 
                     }
+                    Toast.makeText(this, "yo iam result", Toast.LENGTH_SHORT).show();
 
-                    adapter=new MyAdapter(MainActivity.this,list);
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                    SubAdapter subAdapter=new SubAdapter(MainActivity.this,subarray);
+
+                    subAdapter.notifyDataSetChanged();
+
+
                 }
             } else if (data.getData() != null) {
                 String imagePath = data.getData().getPath();
             }
         }
 
-       *//* switch (requestCode)
+        /*switch (requestCode)
         {
             case FilePickerConst.REQUEST_CODE_DOC:
                 if(resultCode== Activity.RESULT_OK && data!=null)
@@ -221,8 +223,8 @@ public class MainActivity extends AppCompatActivity {
                    }
 
                 }
+*/
 
 
-        }*//*
-    }*/
+    }
 }

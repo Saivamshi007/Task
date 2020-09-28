@@ -7,10 +7,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 public class Dummy extends AppCompatActivity {
+
+    ArrayList<String> array=new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,7 @@ public class Dummy extends AppCompatActivity {
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(intent, "Pictures: "), 1);
+        finish();
     }
 
     @Override
@@ -34,6 +39,9 @@ public class Dummy extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data.getClipData() != null) {
+
+                    array.add("sunny");
+                    array.add("Sunny");
 
                     ArrayList<Uri> list=new ArrayList<>();
 
@@ -47,10 +55,13 @@ public class Dummy extends AppCompatActivity {
 
 
 
+
+
                     }
 
-                    Intent intent=new Intent(Dummy.this,MainActivity.class);
-                    intent.putExtra("Key",list);
+                    Intent intent=new Intent(Dummy.this,MyAdapter.class);
+                    intent.putExtra("Key",(list));
+                    intent.putExtra("Ok","Ok ok ok");
                     startActivity(intent);
                     finish();
 
@@ -58,6 +69,7 @@ public class Dummy extends AppCompatActivity {
                 }
             } else if (data.getData() != null) {
                 String imagePath = data.getData().getPath();
+                finish();
             }
         }
 

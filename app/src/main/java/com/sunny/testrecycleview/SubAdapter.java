@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,12 +19,14 @@ import java.util.zip.Inflater;
 
 public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
-    ArrayList<String> msunarray;
-    Context c;
+    ArrayList<Uri> msunarray;
+    Context context;
 
 
-    public SubAdapter(ArrayList<String> subarray){
+    public SubAdapter(Context c,ArrayList<Uri> subarray){
         msunarray=subarray;
+        context=c;
+
 
 
     }
@@ -41,9 +44,16 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
 
-       // Glide.with(c).load(R.drawable.icon_file_doc).placeholder(R.drawable.ic_launcher_background).into(holder.suntext);
 
-        holder.suntext.setText(msunarray.get(position));
+       //Glide.with(c).load(msunarray.get(position)).placeholder(R.drawable.ic_launcher_background).into(holder.suntext);
+
+
+        holder.suntext.setImageURI(msunarray.get(position));
+
+        Toast.makeText(context, "Subadapter", Toast.LENGTH_SHORT).show();
+
+
+
 
 
 
@@ -56,7 +66,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView suntext;
+        ImageView suntext;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

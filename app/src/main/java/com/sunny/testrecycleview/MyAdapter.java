@@ -1,10 +1,14 @@
 package com.sunny.testrecycleview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ColorSpace;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,13 +33,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
+import droidninja.filepicker.FilePickerBuilder;
+
 public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.MyView>{
     Context context;
 
     private List<ModelList>  list;
     private ArrayList<String> GroupList;
-    ArrayList<String> subarray;
     SubAdapter subAdapter;
+
+    public ArrayList<Uri> filepaths;
+
 
     MyAdapter( Context c,ArrayList<String> Group){
         GroupList=Group;
@@ -62,16 +70,50 @@ public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.MyView>{
 
         holder.title.setText(GroupList.get(position));
 
-         subarray=new ArrayList<>();
 
 
-         subAdapter=new SubAdapter(subarray);
 
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(context);
 
-        holder.subRcycler.setLayoutManager(linearLayoutManager);
 
-        holder.subRcycler.setAdapter(subAdapter);
+        try{
+
+
+
+            LinearLayoutManager linearLayoutManager=new LinearLayoutManager(context);
+
+            holder.subRcycler.setLayoutManager(linearLayoutManager);
+
+
+
+            holder.subRcycler.setAdapter(subAdapter);
+
+            subAdapter.notifyDataSetChanged();
+
+        }catch (Exception e){
+
+        }
+
+
+        /* final Handler handler = new Handler();
+         Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                subAdapter.notifyDataSetChanged();
+
+                handler.postDelayed(this, 500);
+            }
+        };
+
+//Start
+        handler.postDelayed(runnable, 5000);
+
+*/
+
+
+
+
+
 
 
 
@@ -84,20 +126,10 @@ public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.MyView>{
             public void onClick(View v) {
 
 
-
-               // context.startActivity(new Intent(context,Dummy.class));
-
-                subarray.add("clicked");
-
-
-                subAdapter.notifyDataSetChanged();
-
-
-
-
-
-
-
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+              (  (Activity) context).startActivityForResult(Intent.createChooser(intent, "Pictures: "), 1);
 
 
 
@@ -107,10 +139,7 @@ public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.MyView>{
 
 
 
-
-
-
-        subAdapter.notifyDataSetChanged();
+        //subAdapter.notifyDataSetChanged();
 
 
 
